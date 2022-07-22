@@ -1,0 +1,72 @@
+import React, { useState }  from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+
+import { Dropdown } from 'rsuite';
+
+export default function NativeSelectDemo() {
+  var exchangeRate =
+  [
+    {
+      "id": 1,
+      "base_currency": "SGD",
+      "exchange_currency": "CAD",
+      "rate": 0.9255
+    },
+    {
+      "id": 2,
+      "base_currency": "SGD",
+      "exchange_currency": "CNH",
+      "rate": 4.7868
+    },
+  ];
+  const [mySum, setMySum] = useState(0);
+  var data =["SGD", "CAD", "MYR", ];
+  const onSubmit = (event) => {};
+  const handleChange = (prop) => (event) => {
+    setMySum({mySum, [prop]: event.target.value});
+  };
+  const handleConvert = (event) => {
+    var filterData = exchangeRate.filter(item => 
+      exchangeRate.exchange_currency.includes(event.target.value));
+    console.log(filterData);
+  };
+  return (
+    <div>
+      <form onSubmit={onSubmit()}>
+      <FormControl sx={{ minWidth: 120 }}>
+        <InputLabel variant="standard">
+          From Currency:
+        </InputLabel>
+        <NativeSelect onChange={handleConvert}>
+          {data.map((message) => <option value={message}>{message}</option>)}
+        </NativeSelect>
+        <OutlinedInput
+            id="outlined-adornment-amount"
+            value={mySum}
+            onChange={e => setMySum(e.target.value)}
+            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+          />
+      </FormControl>
+      <FormControl sx={{ minWidth: 120 }}>
+      <InputLabel variant="standard">
+          To Currency:
+        </InputLabel>
+        <NativeSelect onChange={handleConvert}>
+          {data.map((message) => <option value={message}>{message}</option>)}
+        </NativeSelect>
+        <OutlinedInput
+            id="outlined-adornment-amount"
+            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+          />
+        </FormControl>
+      <button type="submit">Convert</button>
+      </form>
+    </div>
+  );
+}
