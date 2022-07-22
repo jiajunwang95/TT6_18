@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request, jsonify
+from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 from flask_restful import Resource, Api
 #pip install
@@ -132,7 +132,7 @@ def login_auth():
             db_un = data[1]
             db_pw = data[2]
             db_name = data[3]
-            return username, db_id
+            return username, db_id, db_name
         #return render_template('login.html')
 
 if __name__=="__main__":
