@@ -176,7 +176,7 @@ def insert_data():
 
 #content = request.json
 
-@app.route('/wallet', methods = ["DELETE"])
+@app.route('/deletion', methods = ["DELETE"])
 def delete(w_id):
     cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     sql_query = ("delete from wallet where wallet.id = w_id") #select wallet to be deleted from wallet table
