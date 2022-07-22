@@ -21,7 +21,7 @@ mysql=MySQL(app)
 
 #API
 class LoginProcess(Resource):
-    def transaction():
+    def get(self):
         cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #Insert username into it
         sql_query = ("select * from user")
@@ -29,6 +29,27 @@ class LoginProcess(Resource):
         data = cursor.fetchone()
         return data
 api.add_resource(LoginProcess,'/login/auth')
+
+class GetExchangeRate(Resource):
+    def get(self):
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #Insert username into it
+        sql_query = ("select * from exchange_rate")
+        cursor.execute(sql_query)
+        data = cursor.fetchall()
+        return jsonify(data)
+api.add_resource(GetExchangeRate,'/exchangerate')
+
+class GetWalletInfo(Resource):
+    def get(self):
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #Retrieve wallet + currency table
+        sql_query = ("select w.*, c.currency, c.amount from wallet w INNER JOIN currency c on w.id = c.wallet_id")
+        cursor.execute(sql_query)
+        data = cursor.fetchall()
+        return jsonify(data)
+api.add_resource(GetWalletInfo,'/wallet')
+
 
 
 @app.route('/',methods=['GET','POST'])
@@ -67,7 +88,7 @@ def currency():
 
         cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #Change the SELECT variables (There are duplicates so we will need to change accordingly)
-        sql_query = ("SELECT w.name,c.wallet_id,c.currency,c.amount FROM user U INNER JOIN wallet w ON u.id = w.user_id INNER JOIN currency c ON w.id =c.wallet_id")
+        sql_query = ("select wallet.*, currency.currency, currency.amount from wallet join currency on wallet.id = currency.wallet_id")
         #Insert into username.
         #cursor.execute(sql_query, (username,))
         cursor.execute(sql_query)
