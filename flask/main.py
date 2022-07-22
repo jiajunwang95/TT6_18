@@ -36,5 +36,24 @@ def login():
         return render_template("login.html")
 
 
+@app.route('/login', methods = ['POST'])
+def login_auth():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        sql_query = ("select * from user where username = %s and password = %s")
+        cursor.execute(sql_query, (username,))
+        data = cursor.fetchone()
+        if data == None:
+            raise ValueError("Wrong username or password.")
+        else:
+            db_id = data[0]
+            db_un = data[1]
+            db_pw = data[2]
+            db_name = data[3]
+            return username, db_id
+        #return render_template('login.html')
+
 if __name__=="__main__":
     app.run(debug=True)
