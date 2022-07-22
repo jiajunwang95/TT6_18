@@ -54,7 +54,14 @@ class GetWalletInfo(Resource):
         return jsonify(data)
 api.add_resource(GetWalletInfo,'/wallet')
 
-
+class GetWalletDetails(Resource):
+    def get(self):
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        ql_query = ("select w.*,u.username, c.currency, c.amount from wallet w inner join currency c on w.id = c.wallet_id inner join user u on u.id = w.user_id where username = %s")
+        cursor.execute(sql_query, (username,))
+        data = cursor.fetchall()
+        return jsonify(data)
+api.add_resource(GetWalletDetails,'/walletdetails')
 
 @app.route('/',methods=['GET','POST'])
 def transaction():
