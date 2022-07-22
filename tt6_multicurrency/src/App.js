@@ -68,12 +68,16 @@ function App() {
               <div className="">{userId && <TopNavigation />}</div>
             </Header>
             <Container>
-              {userId && <SideNavigation />}
-              {routes}
+              <Content className="main-content">
+                {userId && <SideNavigation />}
+                {routes}
 
-              <FooterContainer>
-                <Footer />
-              </FooterContainer>
+                {userId && (
+                  <FooterContainer>
+                    <Footer />
+                  </FooterContainer>
+                )}
+              </Content>
             </Container>
           </Container>
         </div>

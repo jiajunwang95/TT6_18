@@ -55,7 +55,7 @@ const TopNavigation = () => {
     <React.Fragment>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container className="topnav-container">
-          <Navbar.Brand href="#home">Aztech LMS</Navbar.Brand>
+          <Navbar.Brand href="#home">TechTrek 6</Navbar.Brand>
           <div className="topnav-right-container">
             <div className="topnav-welcome">Welcome, {auth.username}</div>
 
