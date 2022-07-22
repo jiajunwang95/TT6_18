@@ -28,10 +28,12 @@ def login():
         username = request.form["username"] 
         password= request.form['password']
         cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        sql_query = ("select * from user where user = %s")
+        sql_query = ("select * from user where username = %s")
         cursor.execute(sql_query, (username,))
         data = cursor.fetchall()
-        print(data)
+        return render_template('temp.html',data=data)
+    else:
+        return render_template("login.html")
 
 
 if __name__=="__main__":
