@@ -18,7 +18,7 @@ api = Api(app)
 #db = yaml.safe_load(open('db.yaml'))
 app.config['MYSQL_HOST'] = "localhost"
 app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] = "password"
+app.config['MYSQL_PASSWORD'] = ""
 app.config['MYSQL_DB'] = 'multicurrency'
 
 mysql = MySQL(app)
@@ -131,18 +131,19 @@ def login_auth():
 
 @app.route('/currency', methods=['POST', 'GET'])
 def currency():
-    # Get the username session
-    data = request.json
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    # Retrieve wallet + currency table
-    userid = data.get('userid')
-    print(userid)
+    if request.method == "POST":
+        # Get the username session
+        data = request.json
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        # Retrieve wallet + currency table
+        userid = data.get('userid')
+        print(userid)
 
-    sql_query = ("select w.*,u.username, c.currency, c.amount from wallet w inner join currency c on w.id = c.wallet_id inner join user u on u.id = w.user_id where username = %s")
-    # sql_query = ("select w.id, c.currency, c.amount from wallet w INNER JOIN currency c on w.id = c.wallet_id WHERE w.user_id =%s")
-    cursor.execute(sql_query, (userid,))
-    data = cursor.fetchall()
-    return jsonify(data)
+        sql_query = ("select w.*,u.username, c.currency, c.amount from wallet w inner join currency c on w.id = c.wallet_id inner join user u on u.id = w.user_id where w.user_id = %s")
+        # sql_query = ("select w.id, c.currency, c.amount from wallet w INNER JOIN currency c on w.id = c.wallet_id WHERE w.user_id =%s")
+        cursor.execute(sql_query, (userid,))
+        data = cursor.fetchall()
+        return jsonify(data)
 
 
 @app.route('/insert', methods=['POST', 'GET'])
