@@ -20,14 +20,35 @@ mysql=MySQL(app)
 
 #API
 class LoginProcess(Resource):
-    def transaction():
+    def get(self):
         cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #Insert username into it
         sql_query = ("select * from user")
         cursor.execute(sql_query)
-        data = cursor.fetchone()
-        return data
+        data = cursor.fetchall()
+        return jsonify(data)
 api.add_resource(LoginProcess,'/login')
+
+class GetExchangeRate(Resource):
+    def get(self):
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #Insert username into it
+        sql_query = ("select * from exchange_rate")
+        cursor.execute(sql_query)
+        data = cursor.fetchall()
+        return jsonify(data)
+api.add_resource(GetExchangeRate,'/exchangerate')
+
+class GetWalletInfo(Resource):
+    def get(self):
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #Retrieve wallet + currency table
+        sql_query = ("select * from wallet w INNER JOIN currency c on w.id = c.wallet_id")
+        cursor.execute(sql_query)
+        data = cursor.fetchall()
+        return jsonify(data)
+api.add_resource(GetWalletInfo,'/wallet')
+
 
 
 @app.route('/',methods=['GET','POST'])
