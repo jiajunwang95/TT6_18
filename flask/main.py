@@ -28,9 +28,9 @@ class LoginProcess(Resource):
         #Insert username into it
         sql_query = ("select * from user")
         cursor.execute(sql_query)
-        data = cursor.fetchall()
-        return jsonify(data)
-api.add_resource(LoginProcess,'/login')
+        data = cursor.fetchone()
+        return data
+api.add_resource(LoginProcess,'/login/auth')
 
 class GetExchangeRate(Resource):
     def get(self):
@@ -141,10 +141,21 @@ def insert_data():
 
     # cursor.execute("INSERT INTO transaction")
 
+#content = request.json
 
 
 
 
+
+@app.route('/exchange', methods=['POST','GET'])
+def ex_rate():
+    if request.method == 'POST':
+        username = request.form["username"]
+        password = request.form["password"]
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        sql_query = ("select * from exchange_rate")
+        cursor.execute(sql_query)
+        
 
 if __name__=="__main__":
     app.run(debug=True)

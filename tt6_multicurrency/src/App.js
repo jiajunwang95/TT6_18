@@ -20,7 +20,7 @@ import "rsuite/styles/index.less";
 import "rsuite/dist/rsuite.min.css";
 
 function App() {
-  const { login, logout, userId, username } = useAuth();
+  const { login, logout, userId, username, isLoggedIn } = useAuth();
 
   // Add a request interceptor - appends authorization header always
   axios.interceptors.request.use(function (config) {
@@ -41,7 +41,7 @@ function App() {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: !!userId,
+        isLoggedIn: isLoggedIn,
         userId: userId,
         username: username,
         login: login,
@@ -65,18 +65,22 @@ function App() {
         <div>
           <Container>
             <Header>
-              <div className="">{userId && <TopNavigation />}</div>
+              <div className="">
+                {userId !== null && userId !== undefined ? (
+                  <TopNavigation />
+                ) : null}
+              </div>
             </Header>
             <Container>
+              {userId !== null && userId !== undefined ? (
+                <SideNavigation />
+              ) : null}
               <Content className="main-content">
-                {userId && <SideNavigation />}
                 {routes}
 
-                {userId && (
-                  <FooterContainer>
-                    <Footer />
-                  </FooterContainer>
-                )}
+                <FooterContainer>
+                  <Footer />
+                </FooterContainer>
               </Content>
             </Container>
           </Container>

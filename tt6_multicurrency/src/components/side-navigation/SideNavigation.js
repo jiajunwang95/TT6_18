@@ -14,21 +14,21 @@ import "./SideNavigation.css";
 
 const SideNavigation = () => {
   const NavBarData = [
-    {
-      event: "1",
-      trigger: "hover",
-      title: "Wallet",
-      icon: <Columns />,
-      placement: "rightStart",
-      data: [
-        {
-          event: "1-2",
-          title: "View My Wallets",
-          icon: <ViewsAuthorizeIcon />,
-          path: "/wallet",
-        },
-      ],
-    },
+    // {
+    //   event: "1",
+    //   trigger: "hover",
+    //   title: "Wallet",
+    //   icon: <Columns />,
+    //   placement: "rightStart",
+    //   data: [
+    //     {
+    //       event: "1-2",
+    //       title: "View My Wallets",
+    //       icon: <ViewsAuthorizeIcon />,
+    //       path: "/wallet",
+    //     },
+    //   ],
+    // },
     {
       event: "2",
       trigger: "hover",

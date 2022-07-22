@@ -13,6 +13,7 @@ import "./TopNavigation.css";
 
 const TopNavigation = () => {
   const auth = useContext(AuthContext);
+  const name = sessionStorage.getItem("name");
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -57,7 +58,7 @@ const TopNavigation = () => {
         <Container className="topnav-container">
           <Navbar.Brand href="#home">TechTrek 6</Navbar.Brand>
           <div className="topnav-right-container">
-            <div className="topnav-welcome">Welcome, {auth.username}</div>
+            <div className="topnav-welcome">Welcome, {name}</div>
 
             <div className="topnav-logout_icon">
               <IconButton

@@ -18,13 +18,16 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    console.log("dying here... ")
+    // const userId = JSON.parse(sessionStorage.getItem("session")).userId;
+    // const username = JSON.parse(sessionStorage.getItem("session")).username;
+
     if (auth.isLoggedIn && auth.userId && location.state)
       navigate(location.state.from.pathname);
     else if (auth.isLoggedIn && auth.userId)
       navigate("/home", { replace: true });
-    else navigate("/", {replace : true})
+    else navigate("/", { replace: true });
   }, [auth.isLoggedIn, auth.userId, location.state, navigate]);
-
 
   const loginHandler = async (event) => {
     try {
@@ -36,9 +39,9 @@ const Login = () => {
 
       const userDetails = {
         username: username,
-        password: password
-      }
-   
+        password: password,
+      };
+
       // const uninterceptedAxiosInstance = axios.create(); // create new axios without interceptors
       // const response = await uninterceptedAxiosInstance.post(
       //   process.env.REACT_APP_API_FLASK + "/login", userDetails,
@@ -51,12 +54,14 @@ const Login = () => {
 
       // if (response.status === 200) {
       //   auth.login(response.data.username, response.data.userId);
+       // sessionStorage.setItem("name", "response.data.name");
       //   navigate("/home", { replace: true });
       // } else toast.error("Server might be down. Please try again later.");
 
-      if(username === "user101" && password === "123456"){
-        console.log("Check entry... login pass")
+      if (username === "user101" && password === "123456") {
+        console.log("Check entry... login pass");
         auth.login(username, 1);
+        sessionStorage.setItem("name", "Jacky");
         navigate("/home", { replace: true });
       } else {
         toast.error("Incorrect username or password.");
@@ -85,11 +90,7 @@ const Login = () => {
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="username">
                   <Form.Label>Username</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="username"
-                    required
-                  />
+                  <Form.Control type="text" name="username" required />
                 </Form.Group>
               </Row>
               <Row className="mb-3">
@@ -98,13 +99,7 @@ const Login = () => {
                   <Form.Control type="password" name="password" required />
                 </Form.Group>
               </Row>
-              <Form.Group
-                className="login-checkbox mt-3"
-                controlId="login-checkbox"
-              >
-                <Form.Check type="checkbox" label="Remember Me" />
-              </Form.Group>
-
+              <br />
               <div className="login-card_bottom-container">
                 {/* <Card.Link href="/forget/password">Forgot Password?</Card.Link> */}
                 <Button
