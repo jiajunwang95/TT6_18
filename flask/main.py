@@ -1,12 +1,14 @@
 from flask import Flask, render_template,request, jsonify
 from flask_mysqldb import MySQL
+from flask_restful import Resource, Api
+#pip install
 import MySQLdb.cursors
 import json
 
 #import yaml
 
 app=Flask(__name__)
-
+api = Api(app)
 #configure db
 #db = yaml.safe_load(open('db.yaml'))
 app.config['MYSQL_HOST'] ="localhost"
@@ -15,6 +17,18 @@ app.config['MYSQL_PASSWORD'] =""
 app.config['MYSQL_DB'] ='multicurrency'
 
 mysql=MySQL(app)
+
+#API
+class LoginProcess(Resource):
+    def transaction():
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #Insert username into it
+        sql_query = ("select * from user")
+        cursor.execute(sql_query)
+        data = cursor.fetchone()
+        return data
+api.add_resource(LoginProcess,'/login')
+
 
 @app.route('/',methods=['GET','POST'])
 def transaction():
