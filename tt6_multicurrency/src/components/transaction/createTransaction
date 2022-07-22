@@ -9,7 +9,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 
 import { Dropdown } from 'rsuite';
 
-export default function NativeSelectDemo() {
+export default function Select() {
   var exchangeRate =
   [
     {
@@ -26,15 +26,29 @@ export default function NativeSelectDemo() {
     },
   ];
   const [mySum, setMySum] = useState(0);
-  var data =["SGD", "CAD", "MYR", ];
+  const [desiredSum, setMyDesiredSum] = useState(0);
+  var data =["SGD", "CAD", "MYR", "CNH", "EUR"];
+  var toCurrency = data[0];
+  var fromCurrency = data[0];
   const onSubmit = (event) => {};
   const handleChange = (prop) => (event) => {
     setMySum({mySum, [prop]: event.target.value});
   };
-  const handleConvert = (event) => {
-    var filterData = exchangeRate.filter(item => 
-      exchangeRate.exchange_currency.includes(event.target.value));
-    console.log(filterData);
+  function handleFrom(event){
+    exchangeRate.filter((item) => {
+      if(item.base_currency === event){
+        return fromCurrency(item.base_currency);
+      } 
+    })
+  };
+  function handleTo(event){
+    exchangeRate.filter((item) => {
+      if(item.exchange_currency === event){
+        toCurrency(item.exchange_currency)
+        if(item.base_currency === fromCurrency)
+          return setMyDesiredSum(item.rate * fromCurrency);
+      } 
+    })
   };
   return (
     <div>
@@ -43,7 +57,7 @@ export default function NativeSelectDemo() {
         <InputLabel variant="standard">
           From Currency:
         </InputLabel>
-        <NativeSelect onChange={handleConvert}>
+        <NativeSelect onChange={e => handleFrom(e.target.value)}>
           {data.map((message) => <option value={message}>{message}</option>)}
         </NativeSelect>
         <OutlinedInput
@@ -57,7 +71,7 @@ export default function NativeSelectDemo() {
       <InputLabel variant="standard">
           To Currency:
         </InputLabel>
-        <NativeSelect onChange={handleConvert}>
+        <NativeSelect onChange={handleTo}>
           {data.map((message) => <option value={message}>{message}</option>)}
         </NativeSelect>
         <OutlinedInput
@@ -70,3 +84,4 @@ export default function NativeSelectDemo() {
     </div>
   );
 }
+
