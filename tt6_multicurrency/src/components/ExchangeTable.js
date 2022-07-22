@@ -7,54 +7,54 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const columns: Column[] = [
-  { id: 'from', label: '', minWidth: 10 },
-  { id: 'to1', label: 'MYR', minWidth: 10 },
-  { id: 'to2', label: 'RMB', minWidth: 10 },
-  { id: 'to3', label: 'MYR', minWidth: 10 },
-  { id: 'to4', label: 'MYR', minWidth: 10 },
-  { id: 'to5', label: 'MYR', minWidth: 10 },
-  { id: 'to6', label: 'MYR', minWidth: 10 },
-  { id: 'to7', label: 'MYR', minWidth: 10 },
-  { id: 'to8', label: 'MYR', minWidth: 10 },
-  { id: 'to9', label: 'MYR', minWidth: 10 },
-  { id: 'to10', label: 'MYR', minWidth: 10 },
-  { id: 'to11', label: 'MYR', minWidth: 10 },
-];
+// const columns: Column[] = [
+//   { id: 'from', label: '', minWidth: 10 },
+//   { id: 'to1', label: 'MYR', minWidth: 10 },
+//   { id: 'to2', label: 'RMB', minWidth: 10 },
+//   { id: 'to3', label: 'MYR', minWidth: 10 },
+//   { id: 'to4', label: 'MYR', minWidth: 10 },
+//   { id: 'to5', label: 'MYR', minWidth: 10 },
+//   { id: 'to6', label: 'MYR', minWidth: 10 },
+//   { id: 'to7', label: 'MYR', minWidth: 10 },
+//   { id: 'to8', label: 'MYR', minWidth: 10 },
+//   { id: 'to9', label: 'MYR', minWidth: 10 },
+//   { id: 'to10', label: 'MYR', minWidth: 10 },
+//   { id: 'to11', label: 'MYR', minWidth: 10 },
+// ];
 
-interface Data {
-  from: string;
-  to1: string;
-  to2: string;
-  to3: string;
-  to4: string;
-  to5: string;
-  to6: string;
-  to7: string;
-  to8: string;
-  to9: string;
-  to10: string;
-  to11: string;
+// interface Data {
+//   from: string;
+//   to1: string;
+//   to2: string;
+//   to3: string;
+//   to4: string;
+//   to5: string;
+//   to6: string;
+//   to7: string;
+//   to8: string;
+//   to9: string;
+//   to10: string;
+//   to11: string;
   
-}
+// }
 
-function createData(
-  from: string,
-  to1: string,
-  to2: string,
-  to3: string,
-  to4: string,
-  to5: string,
-  to6: string,
-  to7: string,
-  to8: string,
-  to9: string,
-  to10: string,
-  to11: string,
+// function createData(
+//   from: string,
+//   to1: string,
+//   to2: string,
+//   to3: string,
+//   to4: string,
+//   to5: string,
+//   to6: string,
+//   to7: string,
+//   to8: string,
+//   to9: string,
+//   to10: string,
+//   to11: string,
 
-): Data {
-  return { from, to1, to2, to3, to4, to5, to6, to7, to8, to9, to10, to11};
-}
+// ): Data {
+//   return { from, to1, to2, to3, to4, to5, to6, to7, to8, to9, to10, to11};
+// }
 
 const rows = [
   createData('SGP', 3, 1, 3,2,4,1,7,1,3,5,4)
