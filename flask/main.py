@@ -175,6 +175,14 @@ def insert_data():
 
 #content = request.json
 
+@app.route('/wallet', methods = ["DELETE"])
+def delete(w_id):
+    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    sql_query = ("delete from wallet where wallet.id = w_id") #select wallet to be deleted from wallet table
+    cursor.execute(sql_query)
+    sql_query = ("delete from currency where currency.wallet_id = w_id")
+    cursor.execute(sql_query)
+    print("Wallet is deleted.")
 
 @app.route('/exchange', methods=['POST', 'GET'])
 def ex_rate():
