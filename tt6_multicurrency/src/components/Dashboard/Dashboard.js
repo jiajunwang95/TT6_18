@@ -9,8 +9,105 @@ import axios from "axios";
 import { Form, Row, Col, Card, Button } from "react-bootstrap";
 import { PencilSquare, TrashFill, FiletypeJpg } from "react-bootstrap-icons";
 
+const exchangeRateLocal = [
+  {
+    id: 1,
+    base_currency: "SGD",
+    exchange_currency: "CAD",
+    rate: 0.9255,
+  },
+  {
+    id: 2,
+    base_currency: "SGD",
+    exchange_currency: "CNH",
+    rate: 4.7868,
+  },
+  {
+    id: 3,
+    base_currency: "SGD",
+    exchange_currency: "EUR",
+    rate: 0.7086,
+  },
+  {
+    id: 4,
+    base_currency: "SGD",
+    exchange_currency: "HKD",
+    rate: 5.583,
+  },
+  {
+    id: 5,
+    base_currency: "SGD",
+    exchange_currency: "JPY",
+    rate: 97.5303,
+  },
+  {
+    id: 6,
+    base_currency: "SGD",
+    exchange_currency: "NZD",
+    rate: 1.1612,
+  },
+  {
+    id: 7,
+    base_currency: "SGD",
+    exchange_currency: "NOK",
+    rate: 7.2912,
+  },
+  {
+    id: 8,
+    base_currency: "SGD",
+    exchange_currency: "GBP",
+    rate: 0.5974,
+  },
+  {
+    id: 9,
+    base_currency: "SGD",
+    exchange_currency: "SEK",
+    rate: 7.5168,
+  },
+  {
+    id: 10,
+    base_currency: "SGD",
+    exchange_currency: "THB",
+    rate: 25.7275,
+  },
+  {
+    id: 11,
+    base_currency: "SGD",
+    exchange_currency: "USD",
+    rate: 0.7113,
+  },
+];
+
+const walletLocal = [
+  {
+    id: 1,
+    user_id: 1,
+    name: "Multi-Currency Account",
+  },
+  {
+    id: 2,
+    user_id: 1,
+    name: "Travel Account",
+  },
+  {
+    id: 3,
+    user_id: 2,
+    name: "Trading Account",
+  },
+  {
+    id: 4,
+    user_id: 3,
+    name: "Multi-Currency Account",
+  },
+  {
+    id: 5,
+    user_id: 4,
+    name: "Trip to Japan",
+  },
+];
+
 const Dashboard = () => {
-  const [listOfWallet, setListOfWallet] = useState();
+  const [listOfWallet, setListOfWallet] = useState(walletLocal);
   const [exchangeRate, setExchangeRate] = useState();
   const { HeaderCell, Cell, Column } = Table;
   const auth = useContext(AuthContext);
@@ -25,106 +122,46 @@ const Dashboard = () => {
     userId = auth.userId;
   }
 
-  const exchangeRateLocal = [
-    {
-      id: 1,
-      base_currency: "SGD",
-      exchange_currency: "CAD",
-      rate: 0.9255,
-    },
-    {
-      id: 2,
-      base_currency: "SGD",
-      exchange_currency: "CNH",
-      rate: 4.7868,
-    },
-    {
-      id: 3,
-      base_currency: "SGD",
-      exchange_currency: "EUR",
-      rate: 0.7086,
-    },
-    {
-      id: 4,
-      base_currency: "SGD",
-      exchange_currency: "HKD",
-      rate: 5.583,
-    },
-    {
-      id: 5,
-      base_currency: "SGD",
-      exchange_currency: "JPY",
-      rate: 97.5303,
-    },
-    {
-      id: 6,
-      base_currency: "SGD",
-      exchange_currency: "NZD",
-      rate: 1.1612,
-    },
-    {
-      id: 7,
-      base_currency: "SGD",
-      exchange_currency: "NOK",
-      rate: 7.2912,
-    },
-    {
-      id: 8,
-      base_currency: "SGD",
-      exchange_currency: "GBP",
-      rate: 0.5974,
-    },
-    {
-      id: 9,
-      base_currency: "SGD",
-      exchange_currency: "SEK",
-      rate: 7.5168,
-    },
-    {
-      id: 10,
-      base_currency: "SGD",
-      exchange_currency: "THB",
-      rate: 25.7275,
-    },
-    {
-      id: 11,
-      base_currency: "SGD",
-      exchange_currency: "USD",
-      rate: 0.7113,
-    },
-  ];
-
-  const walletLocal = [
-    {
-      id: 1,
-      user_id: 1,
-      name: "Multi-Currency Account",
-    },
-    {
-      id: 2,
-      user_id: 1,
-      name: "Travel Account",
-    },
-    {
-      id: 3,
-      user_id: 2,
-      name: "Trading Account",
-    },
-    {
-      id: 4,
-      user_id: 3,
-      name: "Multi-Currency Account",
-    },
-    {
-      id: 5,
-      user_id: 4,
-      name: "Trip to Japan",
-    },
-  ];
-
   useEffect(() => {
     const abortController = new AbortController();
+    const userId = JSON.parse(sessionStorage.getItem("session")).userId;
+    const userName = JSON.parse(sessionStorage.getItem("session")).username;
+
+    const userObj = {
+      username: userName,
+      userId: userId,
+    };
+
     try {
+      const getExchangeRate = async () => {
+        const response = await axios
+          .post(`${process.env.REACT_APP_API_FLASK}/currency`, userObj)
+          .catch(function (error) {
+            if (
+              error !== undefined &&
+              error.response !== undefined &&
+              error.response !== null
+            ) {
+              toast.error(error.response.data);
+            }
+          });
+
+        if (
+          response !== null &&
+          response !== undefined &&
+          response.status === 200
+        ) {
+          toast.success("Excha.");
+          const oldListOfWallet = listOfWallet;
+          oldListOfWallet.filter((wallet) => {
+            if (wallet.id !== walletId) {
+              return wallet;
+            }
+          });
+        }
+      };
+
+      getExchangeRate();
       //load wallet and exchange rate
     } catch (err) {
       toast.error("Error retrieving information. Please try again later.");
@@ -135,42 +172,49 @@ const Dashboard = () => {
     };
   }, []);
 
-  const deleteWallet = (event) => {
+  const deleteWallet = async (event) => {
     event.preventDefault();
     const walletId = walletToDelete.id;
-    const response = await axios
-    .delete(
-      `${process.env.REACT_APP_API_FLASK}/delete/wallet/${walletId}`
-    )
-    .catch(function(error) {
-      if (
-        error !== undefined &&
-        error.response !== undefined &&
-        error.response !== null
-      ) {
-        toast.error(error.response.data);
+    //     const response = await axios
+    //     .delete(
+    //       `${process.env.REACT_APP_API_FLASK}/delete/wallet/${walletId}`
+    //     )
+    //     .catch(function(error) {
+    //       if (
+    //         error !== undefined &&
+    //         error.response !== undefined &&
+    //         error.response !== null
+    //       ) {
+    //         toast.error(error.response.data);
+    //       }
+    //     });
+
+    //   if (
+    //     response !== null &&
+    //     response !== undefined &&
+    //     response.status === 200
+    //   ) {
+    //     toast.success("Deleted wallet.");
+    //     const oldListOfWallet = listOfWallet;
+    //     oldListOfWallet.filter((wallet) => {
+    //         if(wallet.id !== walletId){
+    //             return wallet;
+    //         }
+    //     });
+
+    //     setListOfWallet(oldListOfWallet);
+    //     setOpenDeleteConfirmModal(false);
+    //   }
+
+    const newListOfWallet = [];
+    listOfWallet.map((wallet) => {
+      if (wallet.id !== walletId) {
+        newListOfWallet.push(wallet);
       }
     });
 
-  if (
-    response !== null &&
-    response !== undefined &&
-    response.status === 200
-  ) {
-    toast.success("Deleted wallet.");
-    const oldListOfWallet = listOfWallet;
-    oldListOfWallet.filter((wallet) => {
-        if(wallet.id !== walletId){
-            return wallet;
-        }
-    });
-
-    setListOfWallet(oldListOfWallet);
+    setListOfWallet(newListOfWallet);
     setOpenDeleteConfirmModal(false);
-  }
-    
-
-
   };
 
   return (
@@ -191,7 +235,7 @@ const Dashboard = () => {
               <Table
                 autoHeight
                 wordWrap
-                data={walletLocal.filter((wallet) => {
+                data={listOfWallet.filter((wallet) => {
                   console.log(auth.userId);
                   //   console.log(wallet);
                   console.log(wallet.user_id);

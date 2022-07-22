@@ -66,13 +66,13 @@ function App() {
           <Container>
             <Header>
               <div className="">
-                {userId !== null && userId !== undefined ? (
+                {userId !== null && userId !== undefined && userId !== false ? (
                   <TopNavigation />
                 ) : null}
               </div>
             </Header>
             <Container>
-              {userId !== null && userId !== undefined ? (
+              {userId !== null && userId !== undefined && userId !== false ? (
                 <SideNavigation />
               ) : null}
               <Content className="main-content">

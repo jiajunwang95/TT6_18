@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 from flask_restful import Resource, Api
+from flask_cors import CORS, cross_origin
 #pip install
 import MySQLdb.cursors
 import json
@@ -9,12 +10,14 @@ import requests
 #import yaml
 
 app=Flask(__name__)
+cors = CORS(app)
 api = Api(app)
+
 #configure db
 #db = yaml.safe_load(open('db.yaml'))
 app.config['MYSQL_HOST'] ="localhost"
 app.config['MYSQL_USER'] ="root"
-app.config['MYSQL_PASSWORD'] =""
+app.config['MYSQL_PASSWORD'] ="password"
 app.config['MYSQL_DB'] ='multicurrency'
 
 mysql=MySQL(app)

@@ -18,7 +18,6 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    console.log("dying here... ")
     // const userId = JSON.parse(sessionStorage.getItem("session")).userId;
     // const username = JSON.parse(sessionStorage.getItem("session")).username;
 
@@ -42,30 +41,27 @@ const Login = () => {
         password: password,
       };
 
-      // const uninterceptedAxiosInstance = axios.create(); // create new axios without interceptors
-      // const response = await uninterceptedAxiosInstance.post(
-      //   process.env.REACT_APP_API_FLASK + "/login", userDetails,
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
+      const uninterceptedAxiosInstance = axios.create(); // create new axios without interceptors
+      const response = await uninterceptedAxiosInstance.post(
+        process.env.REACT_APP_API_FLASK + "/login/auth", userDetails,
+       
+      );
 
-      // if (response.status === 200) {
-      //   auth.login(response.data.username, response.data.userId);
-       // sessionStorage.setItem("name", "response.data.name");
-      //   navigate("/home", { replace: true });
-      // } else toast.error("Server might be down. Please try again later.");
-
-      if (username === "user101" && password === "123456") {
-        console.log("Check entry... login pass");
-        auth.login(username, 1);
-        sessionStorage.setItem("name", "Jacky");
+      if (response.status === 200) {
+        console.log(response.data)
+        auth.login(response.data.username, response.data.id);
+       sessionStorage.setItem("name", response.data.name);
         navigate("/home", { replace: true });
-      } else {
-        toast.error("Incorrect username or password.");
-      }
+      } else toast.error("Server might be down. Please try again later.");
+
+      // if (username === "user101" && password === "123456") {
+      //   console.log("Check entry... login pass");
+      //   auth.login(username, 1);
+      //   sessionStorage.setItem("name", "Jacky");
+      //   navigate("/home", { replace: true });
+      // } else {
+      //   toast.error("Incorrect username or password.");
+      // }
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404)
