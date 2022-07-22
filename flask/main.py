@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 from flask_restful import Resource, Api
 #pip install
 import MySQLdb.cursors
 import json
+import requests
 
 #import yaml
 
@@ -27,7 +28,7 @@ class LoginProcess(Resource):
         cursor.execute(sql_query)
         data = cursor.fetchone()
         return data
-api.add_resource(LoginProcess,'/login')
+api.add_resource(LoginProcess,'/login/auth')
 
 
 @app.route('/',methods=['GET','POST'])
@@ -91,15 +92,13 @@ def transaction4():
 
     # cursor.execute("INSERT INTO transaction")
 
+content = request.json
 
-
-
-
-@app.route('/login', methods = ['POST'])
+@app.route('/login/auth', methods = ['POST'])
 def login_auth():
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+        #username = request.json["username"]
+        #password = request.json["password"]
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         sql_query = ("select * from user where username = %s and password = %s")
         cursor.execute(sql_query, (username,))
@@ -113,6 +112,16 @@ def login_auth():
             db_name = data[3]
             return username, db_id, db_name
         #return render_template('login.html')
+
+@app.route('/exchange', methods=['POST','GET'])
+def ex_rate():
+    if request.method == 'POST':
+        username = request.form["username"]
+        password = request.form["password"]
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        sql_query = ("select * from exchange_rate")
+        cursor.execute(sql_query)
+        
 
 if __name__=="__main__":
     app.run(debug=True)
