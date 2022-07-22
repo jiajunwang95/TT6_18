@@ -133,7 +133,7 @@ const Dashboard = () => {
     };
 
     try {
-      const getExchangeRate = async () => {
+      const getWalletInfo = async () => {
         const response = await axios
           .post(`${process.env.REACT_APP_API_FLASK}/currency`, userObj)
           .catch(function (error) {
@@ -151,17 +151,12 @@ const Dashboard = () => {
           response !== undefined &&
           response.status === 200
         ) {
-          toast.success("Excha.");
-          const oldListOfWallet = listOfWallet;
-          oldListOfWallet.filter((wallet) => {
-            if (wallet.id !== walletId) {
-              return wallet;
-            }
-          });
+          toast.success("Wallet Info received.");
+          setListOfWallet(response.data);
         }
       };
 
-      getExchangeRate();
+      getWalletInfo();
       //load wallet and exchange rate
     } catch (err) {
       toast.error("Error retrieving information. Please try again later.");
