@@ -1,0 +1,40 @@
+.sidebarx {
+    height: calc(100vh - 55px) !important;
+    display: flex;
+    flex-direction: column;
+    background-color: #100b07;
+}
+
+ ::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.rs-dropdown-menu {
+    font-size: 13px !important;
+}
+
+.rs-sidenav-nav>.rs-dropdown .rs-dropdown-toggle,
+.rs-sidenav-nav>.rs-sidenav-item {
+    font-size: 14px !important;
+}

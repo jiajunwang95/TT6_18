@@ -1,0 +1,108 @@
+.background-img {
+    position: sticky;
+    background-image: url("../../images/giphy.gif");
+    background-size: contain;
+    height: 110vh;
+}
+
+.login-container {
+    display: flex;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    height: 85%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-card {
+    width: 70%;
+    margin-left: 15%;
+    font-size: 14px;
+}
+
+.login-card h4,
+.login-card h5 {
+    font-weight: lighter;
+}
+
+.login-card_header,
+.login-card_footer {
+    text-align: center;
+}
+
+.login-card_bottom-container {
+    display: flex;
+    justify-content: right;
+}
+
+.login-checkbox {
+    margin-bottom: .5rem;
+}
+
+#login-checkbox {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+@media only screen and (min-width: 1440px) {
+    .login-container {
+        height: 75%;
+    }
+    .login-card {
+        width: 40%;
+        margin: auto;
+    }
+    .login-checkbox {
+        margin-bottom: 20px !important;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .login-container {
+        height: 80%;
+        width: 100%;
+    }
+    .login-card {
+        width: 60%;
+        margin: auto;
+    }
+    .login-checkbox {
+        margin-bottom: 50px !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .login-container {
+        width: 100%;
+    }
+    .login-card {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .login-container {
+        height: 80%;
+        width: 100%;
+    }
+    .login-card {
+        width: 90%;
+        font-size: 12px;
+        margin: auto;
+    }
+    .login-checkbox {
+        margin-bottom: 35px !important;
+    }
+}
+
+.form-input-width {
+    width: 60% !important;
+}
+
+.login-button {
+    width: 30%;
+    height: 10%;
+    margin-top: -3%;
+    float: right !important;
+}

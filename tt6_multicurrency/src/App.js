@@ -1,17 +1,17 @@
 import React, { Suspense, useEffect, useState } from "react";
-// import { AuthContext } from "./context/auth-context";
-// import { useAuth } from "./hook/auth-hook";
+import { AuthContext } from "./components/context/auth-context";
+import { useAuth } from "./components/hook/auth-hook";
 import { CircularProgress } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container, Header, Content, Footer as FooterContainer } from "rsuite";
-import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-import Login from "./component/login/login";
-import RegisterUser from "./component/register-user/registerUser";
-
-
+import Login from "./components/login/login";
+import Footer from "./components/footer/footer";
+import TopNavigation from "./components/top-navigation/TopNavigation";
+import SideNavigation from "./components/side-navigation/SideNavigation";
+// import Dashboard from "./component/dashboard/dashboard";
 
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,72 +20,65 @@ import "rsuite/styles/index.less";
 import "rsuite/dist/rsuite.min.css";
 
 function App() {
-  // const { token, login, logout, userId, username, role, updateUsername } =
-  // useAuth();
+  const { login, logout, userId, username } = useAuth();
 
-// Add a request interceptor - appends authorization header always
-axios.interceptors.request.use(function (config) {
-  const token = JSON.parse(sessionStorage.getItem("session")).token;
-  config.headers.Authorization = token ? `Bearer ${token}` : "";
-  config.headers.put["Content-Type"] = "application/json";
-  return config;
-});
+  // Add a request interceptor - appends authorization header always
+  axios.interceptors.request.use(function (config) {
+    // const userId = JSON.parse(sessionStorage.getItem("session")).userId;
+    // config.headers.Authorization = userId ? `Bearer ${userId}` : "";
+    config.headers.put["Content-Type"] = "application/json";
+    return config;
+  });
 
-let routes = (
-  <Routes>
-    <Route exact path="/" element={<Login />} />
-    <Route exact path="/register/user" element={<RegisterUser />} />
-    {/* <Route exact path="/home" element={<Home />} /> */}
-  </Routes>
-);
+  let routes = (
+    <Routes>
+      <Route exact path="/" element={<Login />} />
+      {/* <Route exact path="/home" element={<Dashboard />} /> */}
+      {/* <Route exact path="/home" element={<Home />} /> */}
+    </Routes>
+  );
 
-return (
-  // <AuthContext.Provider
-  //   value={{
-  //     isLoggedIn: !!token,
-  //     token: token,
-  //     userId: userId,
-  //     username: username,
-  //     role: role,
-  //     login: login,
-  //     logout: logout,
-  //     updateUsername: updateUsername,
-  //   }}
-  // >
-    <Router>
-      <ToastContainer
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={true}
-        closeOnClick={true}
-        rtl={false}
-        pauseOnHover={true}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        progress={undefined}
-        position={toast.POSITION.TOP_RIGHT}
-        style={{ zIndex: "10000", marginTop: "3%" }}
-      />
-      <div>
-        <Container>
-          <Header>
-            <div className="">
-              {/* {userId && role && (
-                <TopNavigation updateNav={updateNav} setNav={setUpdateNav} />
-              )} */}
-            </div>
-          </Header>
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!userId,
+        userId: userId,
+        username: username,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <Router>
+        <ToastContainer
+          autoClose={3000}
+          hideProgressBar={true}
+          newestOnTop={true}
+          closeOnClick={true}
+          rtl={false}
+          pauseOnHover={true}
+          pauseOnFocusLoss={false}
+          draggable={false}
+          progress={undefined}
+          position={toast.POSITION.TOP_RIGHT}
+          style={{ zIndex: "10000", marginTop: "3%" }}
+        />
+        <div>
           <Container>
-            {routes}
+            <Header>
+              <div className="">{userId && <TopNavigation />}</div>
+            </Header>
+            <Container>
+              {userId && <SideNavigation />}
+              {routes}
 
-            <FooterContainer>
-              {/* <Footer /> */}
-            </FooterContainer>
+              <FooterContainer>
+                <Footer />
+              </FooterContainer>
+            </Container>
           </Container>
-        </Container>
-      </div>
-    </Router>
-  // </AuthContext.Provider>
-);
+        </div>
+      </Router>
+    </AuthContext.Provider>
+  );
 }
 export default App;

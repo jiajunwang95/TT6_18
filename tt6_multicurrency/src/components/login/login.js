@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Form, Row, Col, Card, Button } from "react-bootstrap";
-// import { AuthContext } from "../../context/auth-context";
+import { AuthContext } from "../context/auth-context";
 import axios from "axios";
 import { FormControl, Input, TextField } from "@mui/material";
 
 import { toast } from "react-toastify";
-import Logo from "../images/hello.png";
+import Logo from "../../images/hello.png";
 import "./login.css";
 
 var md5 = require("md5");
@@ -14,16 +14,16 @@ var md5 = require("md5");
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const [loginDetails, setLoginDetails] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // useEffect(() => {
-  //   if (auth.isLoggedIn && auth.userId && location.state)
-  //     navigate(location.state.from.pathname);
-  //   else if (auth.isLoggedIn && auth.userId)
-  //     navigate("/map", { replace: true });
-  // }, [auth.isLoggedIn, auth.userId, location.state, navigate]);
+  useEffect(() => {
+    if (auth.isLoggedIn && auth.userId && location.state)
+      navigate(location.state.from.pathname);
+    else if (auth.isLoggedIn && auth.userId)
+      navigate("/map", { replace: true });
+  }, [auth.isLoggedIn, auth.userId, location.state, navigate]);
 
   const loginHandler = async () => {
     try {
@@ -32,7 +32,7 @@ const Login = () => {
       ); // base64 encoding
       const uninterceptedAxiosInstance = axios.create(); // create new axios without interceptors
       const response = await uninterceptedAxiosInstance.get(
-        process.env.REACT_APP_API_EXPRESS + "/login",
+        process.env.REACT_APP_API_FLASK + "/login",
         {
           headers: {
             Authorization: "Basic " + headerData,
@@ -42,7 +42,7 @@ const Login = () => {
       );
 
       if (response.status === 200) {
-        auth.login(response.data);
+        auth.login(response.data.username, response.data.userId);
         navigate("/home", { replace: true });
       } else toast.error("Server might be down. Please try again later.");
     } catch (err) {

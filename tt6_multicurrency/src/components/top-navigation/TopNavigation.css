@@ -1,0 +1,39 @@
+.topnav-welcome {
+    color: white;
+    margin: auto 35px auto 0;
+}
+
+.topnav-edit-profile,
+.topnav-notifications,
+.topnav-logout_icon {
+    margin: auto 15px auto 0;
+    padding: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.navbar {
+    z-index: 100;
+}
+
+.topnav-container {
+    max-width: 100% !important;
+    z-index: 100;
+}
+
+.topnav-right-container {
+    width: auto;
+    display: inline-flex;
+}
+
+.dropdown-menu[data-bs-popper] {
+    left: initial !important;
+    right: 0;
+}
+
+@media (max-width: 768px) {
+    .body-container_content,
+    footer {
+        width: 100%;
+    }
+}
