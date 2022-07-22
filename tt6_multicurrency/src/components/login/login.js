@@ -9,13 +9,12 @@ import { toast } from "react-toastify";
 import Logo from "../../images/hello.png";
 import "./login.css";
 
-var md5 = require("md5");
+// var md5 = require("md5");
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useContext(AuthContext);
-  const [loginDetails, setLoginDetails] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -23,28 +22,45 @@ const Login = () => {
       navigate(location.state.from.pathname);
     else if (auth.isLoggedIn && auth.userId)
       navigate("/home", { replace: true });
+    else navigate("/", {replace : true})
   }, [auth.isLoggedIn, auth.userId, location.state, navigate]);
 
-  const loginHandler = async () => {
-    try {
-      const headerData = btoa(
-        loginDetails.email + ":" + md5(loginDetails.password)
-      ); // base64 encoding
-      const uninterceptedAxiosInstance = axios.create(); // create new axios without interceptors
-      const response = await uninterceptedAxiosInstance.get(
-        process.env.REACT_APP_API_FLASK + "/login",
-        {
-          headers: {
-            Authorization: "Basic " + headerData,
-            "Content-Type": "application/json",
-          },
-        }
-      );
 
-      if (response.status === 200) {
-        auth.login(response.data.username, response.data.userId);
+  const loginHandler = async (event) => {
+    try {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      console.log("userName: " + username);
+      console.log("password: " + password);
+
+      const userDetails = {
+        username: username,
+        password: password
+      }
+   
+      // const uninterceptedAxiosInstance = axios.create(); // create new axios without interceptors
+      // const response = await uninterceptedAxiosInstance.post(
+      //   process.env.REACT_APP_API_FLASK + "/login", userDetails,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
+
+      // if (response.status === 200) {
+      //   auth.login(response.data.username, response.data.userId);
+      //   navigate("/home", { replace: true });
+      // } else toast.error("Server might be down. Please try again later.");
+
+      if(username === "user101" && password === "123456"){
+        console.log("Check entry... login pass")
+        auth.login(username, 1);
         navigate("/home", { replace: true });
-      } else toast.error("Server might be down. Please try again later.");
+      } else {
+        toast.error("Incorrect username or password.");
+      }
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404)
@@ -67,7 +83,7 @@ const Login = () => {
             <br />
             <Form id="timerProfileForm" className="form-margin-width">
               <Row className="mb-3">
-                <Form.Group as={Col} controlId="email">
+                <Form.Group as={Col} controlId="username">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
