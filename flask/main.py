@@ -87,7 +87,7 @@ def currency():
 
         cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #Change the SELECT variables (There are duplicates so we will need to change accordingly)
-        sql_query = ("SELECT w.name,c.wallet_id,c.currency,c.amount FROM user U INNER JOIN wallet w ON u.id = w.user_id INNER JOIN currency c ON w.id =c.wallet_id")
+        sql_query = ("select wallet.*, currency.currency, currency.amount from wallet join currency on wallet.id = currency.wallet_id where wallet.user_id = 1")
         #Insert into username.
         #cursor.execute(sql_query, (username,))
         cursor.execute(sql_query)
