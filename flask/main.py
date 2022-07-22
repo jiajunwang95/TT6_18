@@ -128,7 +128,7 @@ def transaction4():
 
     # cursor.execute("INSERT INTO transaction")
 
-content = request.json
+#content = request.json
 
 
 
