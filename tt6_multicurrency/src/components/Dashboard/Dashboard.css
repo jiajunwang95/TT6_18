@@ -1,0 +1,20 @@
+.box-align {
+    width: 60% !important;
+}
+
+.dash-card_header,
+.dash-card_footer {
+    color: rgb(204, 204, 204);
+    text-align: center;
+}
+
+.dash-container {
+    width: 50%;
+    padding: 10px;
+    height: 85%;
+    flex-direction: column;
+}
+
+.align-right {
+    text-align: right;
+}

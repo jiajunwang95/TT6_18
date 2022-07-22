@@ -62,26 +62,41 @@ def transaction():
         data =cursor.fetchall()
         #return jsonify
 
-@app.route('/login',methods=['POST','GET'])
-def login():
-    if request.method =="POST":
-        username = request.form["username"] 
-        password= request.form['password']
-        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        #Insert username into it
-        sql_query = ("select * from user where username = %s")
-        cursor.execute(sql_query, (username,))
-        data = cursor.fetchone()
-        #Check the password if it is accurate
-        data_password = data.get('password')
-        data_username =data.get('username')
-        print(data_password)
-        print(data_username)
-        if data and data_password == password and data_username == username:
-            return render_template('temp.html',data=data)
-    else:
-        return render_template("login.html")
+# @app.route('/login/auth',methods=['POST','GET'])
+# def login():
+#     if request.method =="POST":
+#         data = request.json
+#         username= data.get("username")
+#         cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#         #Insert username into it
+#         sql_query = ("select * from user where username = %s")
+#         cursor.execute(sql_query, (username,))
+#         data = cursor.fetchone()
+#         #Check the password if it is accurate
+#         data_password = data.get('password')
+#         data_username =data.get('username')
+#         print(data_password)
+#         print(data_username)
+#         if data and data_password == password and data_username == username:
+#             return render_template('temp.html',data=data)
+#     else:
+#         return render_template("login.html")
 
+@app.route('/login/auth', methods = ['POST'])
+def login_auth():
+    if request.method == "POST":
+        data = request.json
+        username= data.get("username")
+        password = data.get("password")
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        sql_query = ("select * from user where username = %s and password = %s")
+        cursor.execute(sql_query, (username,password))
+        data = cursor.fetchone()
+        if data == None:
+            raise ValueError("Wrong username or password.")
+        else:
+            return jsonify(data)
+        #return render_template('login.html')
 @app.route('/currency',methods=['GET'])
 def currency():
         #Get the username session
@@ -115,24 +130,9 @@ def transaction4():
 
 content = request.json
 
-@app.route('/login/auth', methods = ['POST'])
-def login_auth():
-    if request.method == "POST":
-        #username = request.json["username"]
-        #password = request.json["password"]
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        sql_query = ("select * from user where username = %s and password = %s")
-        cursor.execute(sql_query, (username,))
-        data = cursor.fetchone()
-        if data == None:
-            raise ValueError("Wrong username or password.")
-        else:
-            db_id = data[0]
-            db_un = data[1]
-            db_pw = data[2]
-            db_name = data[3]
-            return username, db_id, db_name
-        #return render_template('login.html')
+
+
+
 
 @app.route('/exchange', methods=['POST','GET'])
 def ex_rate():
