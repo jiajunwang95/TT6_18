@@ -1,0 +1,8 @@
+{% for item in data %}
+<tr>
+ <td>{{item.debit_currency}}</td>
+ <td>{{item.debit_amount}}</td>
+ <td>{{item.credit_currency}}</td>
+ <td>{{item.credit_amount}}</td>
+ <td>{{item.created_by}}</td>
+ {% endfor %}
