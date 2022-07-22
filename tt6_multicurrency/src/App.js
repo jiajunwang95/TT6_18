@@ -11,7 +11,7 @@ import Login from "./components/login/login";
 import Footer from "./components/footer/footer";
 import TopNavigation from "./components/top-navigation/TopNavigation";
 import SideNavigation from "./components/side-navigation/SideNavigation";
-// import Dashboard from "./component/dashboard/dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,7 +33,7 @@ function App() {
   let routes = (
     <Routes>
       <Route exact path="/" element={<Login />} />
-      {/* <Route exact path="/home" element={<Dashboard />} /> */}
+      <Route exact path="/home" element={<Dashboard />} />
       {/* <Route exact path="/home" element={<Home />} /> */}
     </Routes>
   );

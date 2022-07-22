@@ -22,7 +22,7 @@ const Login = () => {
     if (auth.isLoggedIn && auth.userId && location.state)
       navigate(location.state.from.pathname);
     else if (auth.isLoggedIn && auth.userId)
-      navigate("/map", { replace: true });
+      navigate("/home", { replace: true });
   }, [auth.isLoggedIn, auth.userId, location.state, navigate]);
 
   const loginHandler = async () => {
