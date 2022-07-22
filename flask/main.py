@@ -22,5 +22,17 @@ def transaction():
         data =cursor.fetchall()
         return render_template('transaction.html',data=data)
 
+@app.route('/login',methods=['POST','GET'])
+def login():
+    if request.method =="POST":
+        username = request.form["username"] 
+        password= request.form['password']
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        sql_query = ("select * from user where user = %s")
+        cursor.execute(sql_query, (username,))
+        data = cursor.fetchall()
+        print(data)
+
+
 if __name__=="__main__":
     app.run(debug=True)
