@@ -5,22 +5,21 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 const columns: Column[] = [
-  { id: 'from', label: '', minWidth: 170 },
-  { id: 'to1', label: 'MYR', minWidth: 100 },
-  { id: 'to2', label: 'MYR', minWidth: 100 },
-  { id: 'to3', label: 'MYR', minWidth: 100 },
-  { id: 'to4', label: 'MYR', minWidth: 100 },
-  { id: 'to5', label: 'MYR', minWidth: 100 },
-  { id: 'to6', label: 'MYR', minWidth: 100 },
-  { id: 'to7', label: 'MYR', minWidth: 100 },
-  { id: 'to8', label: 'MYR', minWidth: 100 },
-  { id: 'to9', label: 'MYR', minWidth: 100 },
-  { id: 'to10', label: 'MYR', minWidth: 100 },
-  { id: 'to11', label: 'MYR', minWidth: 100 },
+  { id: 'from', label: '', minWidth: 10 },
+  { id: 'to1', label: 'MYR', minWidth: 10 },
+  { id: 'to2', label: 'RMB', minWidth: 10 },
+  { id: 'to3', label: 'MYR', minWidth: 10 },
+  { id: 'to4', label: 'MYR', minWidth: 10 },
+  { id: 'to5', label: 'MYR', minWidth: 10 },
+  { id: 'to6', label: 'MYR', minWidth: 10 },
+  { id: 'to7', label: 'MYR', minWidth: 10 },
+  { id: 'to8', label: 'MYR', minWidth: 10 },
+  { id: 'to9', label: 'MYR', minWidth: 10 },
+  { id: 'to10', label: 'MYR', minWidth: 10 },
+  { id: 'to11', label: 'MYR', minWidth: 10 },
 ];
 
 interface Data {
@@ -36,6 +35,7 @@ interface Data {
   to9: string;
   to10: string;
   to11: string;
+  
 }
 
 function createData(
@@ -61,17 +61,6 @@ const rows = [
 ];
 
 export default function ColumnGroupingTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   return (
     <Paper sx={{ width: '100%' }}>
@@ -97,10 +86,9 @@ export default function ColumnGroupingTable() {
           </TableHead>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.to1}>
+                  <TableRow key={row.to1}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -117,15 +105,6 @@ export default function ColumnGroupingTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </Paper>
   );
 }
