@@ -1,0 +1,8 @@
+Creating Front End:
+1. Run "npx create-react-app client" to create the client
+2. Activate the virtual environment "venv\Scripts\acitvate" from sample folder.
+(If faced error with "scripts is disabled on this system", run "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned" under administrative powershell)
+Link: https://stackoverflow.com/questions/64633727/how-to-fix-running-scripts-is-disabled-on-this-system
+3. Add "proxy":"http://localhost:5000" in package.json to create the connection between front and back end
+
+
