@@ -69,6 +69,30 @@ def show_wallet(userid : str):
         return jsonify(data)
     else:
         return jsonify({"error":"Empty database"})
+@app.route('/delete', methods=['POST'] )
+def deletion():
+    if request.method == "POST":
+        data = request.json
+        userid = data.get("userid")
+        walletid = data.get("walletid")
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        delete_currency_query = ("DELETE FROM currency \
+                    WHERE wallet_id in (SELECT id from wallet where user_id = %s )")
+        delete_wallet_query = ("DELETE FROM wallet \
+                            WHERE id = %s")
+        if delete_currency_query != None and delete_wallet_query != None:
+            try:
+            # Execute the SQL command
+                cursor.execute(delete_currency_query, (userid,))
+                cursor.execute(delete_wallet_query, (walletid,))
+            # Commit your changes in the database
+                mysql.connection.commit()
+                return jsonify({"msg":"Successful"})
+            except:
+            # # Roll back in case there is any error
+                mysql.connection.rollback()       
+        else:
+            return jsonify({"error":"Unable to find data"})
 
 if __name__ == "__main__":
     app.run(debug=True)
